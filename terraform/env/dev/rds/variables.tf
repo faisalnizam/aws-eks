@@ -1,6 +1,23 @@
 #################################
 #### DB Parameter Group Vars ####
 #################################
+
+variable "region" {
+    description ="Region for RDS Instance"
+    type = string 
+    default = "eu-west-1"
+}
+variable "label" { 
+    description = "Label for RDS"
+    type = string
+    default = "poc"
+}
+
+variable "environment" { 
+    description = "Enviornment Name"
+    type = string
+    default = "dev"
+}
 variable "create_parameter_group" {
   description = "Whether to create this resource or not?"
   type        = bool
@@ -85,6 +102,13 @@ variable "og_tags" {
   default     = {}
 }
 
+variable "tags" {
+  description = "A mapping of tags to assign to the resource"
+  type        = map(string)
+  default     = {}
+}
+
+
 ##########################
 #### DB Instance Vars ####
 ##########################
@@ -97,6 +121,7 @@ variable "create_db_instance" {
 variable "identifier" {
   description = "The name of the RDS instance, if omitted, Terraform will assign a random, unique identifier"
   type        = string
+  default        = "poc-rds-postgres"
 }
 
 variable "engine" {
@@ -323,6 +348,7 @@ variable "create_monitoring_role" {
   variable "db_password" {
     description = "The password for the RDS database instance (take note of this now)"
     type        = string
+    default     = "P@sswo0rd123"
   
   }
   

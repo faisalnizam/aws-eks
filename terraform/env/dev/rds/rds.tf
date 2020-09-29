@@ -1,5 +1,16 @@
+resource "aws_db_subnet_group" "poc" {
+  provider = aws.poc-dev
+  name       = "poc-db-group"
+  subnet_ids = ["${data.aws_subnet.poc-dev-sub-me-south-1-database-1a.id}", "${data.aws_subnet.poc-dev-sub-me-south-1-database-1b.id}"]
+
+  tags = {
+    Name = "SDP Prod DB subnet group"
+  }
+}
+
+
 module "rds_instance" {
-  source = "../../modules/rds"
+  source = "../../../modules/rds/"
 
   create            = var.create_db_instance
   identifier        = var.identifier
@@ -23,7 +34,7 @@ module "rds_instance" {
   snapshot_identifier = var.db_snapshot
 
   vpc_security_group_ids = var.vpc_security_group_ids //
-  db_subnet_group_name   = module.vpc.database_subnet_group
+  db_subnet_group_name   = aws_db_subnet_group.poc.id
   parameter_group_name   = module.rds_instance.db_parameter_group_id
   option_group_name      = module.rds_instance.db_option_group_id
 
