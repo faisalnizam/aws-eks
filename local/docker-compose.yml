@@ -1,64 +1,44 @@
 version: '3'
 
 services:
-  nginx:
-    ports:
-      - "80:80" 
-    build: nginx/.
-    container_name: proxy
-    command: nginx -g "daemon off;" 
-    networks:
-      - frontend
-      - airports 
-      - countries
-    depends_on:
-      - airports
-      - countries 
-    links: 
-      - airports 
-      - countries 
-  jenkins: 
-    ports: 
-      - "8082:8080"
-    build: 
-      context: . 
-      dockerfile: ./jenkins/Dockerfile
-    container_name: jenkins
-    networks: 
-      - frontend
-  airports:
-    container_name: airports
-    ports: 
-      - "8080:8080"
-    build:
-      context: . 
-      dockerfile: ./dockerfile/Dockerfile
-      args: 
-        - PACKAGE=airports
-        - VERSION=1.0.1
-        - NAME=airports-assembly
-    networks: 
-      - airports 
-  countries:
-    container_name: countries
-    ports: 
-      - "8081:8080"
-    build:
-      context: . 
-      dockerfile: ./dockerfile/Dockerfile
-      args: 
-        - PACKAGE=countries
-        - VERSION=1.0.1
-        - NAME=countries-assembly
-    networks: 
-      - countries 
-networks:
-  airports:
-    driver: bridge
-    internal: true
-  countries:
-    driver: bridge
-    internal: true
-  frontend:
+    fewww:
+        build: ../artifacts/nginx
+        container_name: fewww
+        networks:
+            - thenet
+        links: 
+            - feapp:feapp
+    feapp:
+        build: ../artifacts/filebrowser/
+        container_name: feapp
+        networks:
+            thenet:
+                aliases: 
+                    - feapp
+            dbnet:
+        ports:
+            - '8080:8080'
+        depends_on:
+            - database
+    database:
+        image: "postgres:9.6.5"
+        container_name: "database"
+        volumes:
+            - "dbdata:/var/lib/postgresql/data"
+        env_file:
+            - database.env
+        hostname: db.devops.ae
+        networks: 
+           dbnet:
+             aliases: 
+                - db.devops.ae
 
+networks:
+    thenet:
+        driver: bridge
+    dbnet:
+        driver: bridge
+
+volumes:
+  dbdata:
 
