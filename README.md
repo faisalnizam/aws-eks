@@ -40,3 +40,15 @@ Moveover The Script can easily be modified to accept Command Line Inputs or STDI
 
  * To submit bug reports and feature suggestions, or track changes:
     faisal@devops.ae
+
+REQUIREMENTS
+------------
+
+This module requires the following modules:
+
+ * Hashicorp Terraform (https://www.terraform.io/)
+ * Ansible  (https://www.ansible.com)
+ * Hashicorp Packer  (https://www.packer.io/) 
+ * Docker Engine (https://docs.docker.com/engine/install/) 
+ * AWS (https://aws.amazon.com/)
+
