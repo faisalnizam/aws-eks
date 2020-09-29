@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filebrowser-api
+  namespace: interview
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: filebrowser-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: filebrowser-api
+  template:
+    metadata:
+      labels:
+        app: filebrowser-api
+    spec:
+      containers:
+      - name: filebrowser-api
+        image: filebrowser:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 80
+
+
+# For AutoScale kubectl autoscale deploymen filebrowser-api --cpu-percent=60 --min=1 --max=10
