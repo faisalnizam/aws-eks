@@ -1,6 +1,7 @@
 #!/bin/bash 
 # Include Other Script Files
 source scripts/vpc-rds-create.sh
+source scripts/deploy-local.sh 
 source scripts/runtf.sh
 
 echo "===================="
@@ -12,13 +13,14 @@ echo "===================="
 #2 "Option 2" \
 #3 "Option 3"
 
-PS3='Please enter your choice: '
+PS3='Please enter your choice Or Enter To Print Menu Again: '
 options=("Option 1 Local" "Option 2 VPC and RDS" "Option 3 EKS Cluster" "Option 4 Deploy in EKS" "Quit")
 select opt in "${options[@]}"
 do
     case $opt in
         "Option 1 Local")
             echo "Create Local Image and Deploy"
+            deploylocal
             ;;
         "Option 2 VPC and RDS")
             echo "Create VPC and RDS in AWS"

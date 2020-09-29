@@ -4,7 +4,11 @@
 function deploylocal {
 
 
-    exit
+    cdir=`pwd` 
+    cd $cdir/local 
+
+    docker-compose build
+
 
 
 }
